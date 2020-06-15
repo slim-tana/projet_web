@@ -1,7 +1,25 @@
-<?PHP 
-include "../../core/reclamationC.php";
-$reclamationCvar =new reclamationC();
-$listeReclamations=$reclamationCvar->afficherReclamation();
+
+
+<?PHP
+include "../../entities/rdv.php";
+include "../../core/rdvC.php";
+
+if (isset($_POST['dateR']) and isset($_POST['timeR']) and isset($_POST['refp'])and isset($_POST['etat']))
+{
+    $date_r=$_POST['dateR'];
+    $time_r=$_POST['timeR'];
+    $refP=$_POST['refp'];
+	$etat=$_POST['etat'];
+    $rdvvar = new rdv($date_r,$time_r,$refP,$etat);	
+    $rdvCvar= new rdvC() ;
+    $rdvCvar->ajouterRdv($rdvvar);
+	
+    header('Location: afficherRdv.php');
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -97,13 +115,13 @@ $listeReclamations=$reclamationCvar->afficherReclamation();
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
-									<li><a href="index.php">home</a></li>
+								<li><a href="index.html">home</a></li>
 								<li><a href="#">collections</a></li>
 								<li><a href="#">produits</a></li>
 								<li><a href="#">point de vente</a></li>
 								<li><a href="#">notre histoire</a></li>
-								<li><a href="contact.php">reclamtion</a></li>
-								<li><a href="rdv.php">rendezvous</a></li>
+								<li><a href="#">actualités</a></li>
+								<li><a href="contact.php">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
 								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
@@ -198,48 +216,69 @@ $listeReclamations=$reclamationCvar->afficherReclamation();
 		</div>
 
 		<!-- Map Container -->
-		
-   <a href="contact.php">Reclamation</a>
-  <div class="card-body">
- 
-   <table class="table table-bordered table-dark">
-  <thead>
-    <tr>
-      <th scope="col" class="bg-primary">Id</th>
-      <th scope="col" class="bg-primary">NOM</th>
-      <th scope="col" class="bg-primary">PRENOM</th>
-      <th scope="col" class="bg-primary">TYPE</th>
-	  
-	  <th scope="col" class="bg-primary">REF</th>
-	  <th scope="col" class="bg-primary">MESSAGE</th>
-	  <th scope="col" class="bg-primary">DATE</th>
-	
-    </tr>
-  </thead>
-  <tbody>
 
-
-										<?PHP
-										foreach($listeReclamations as $row){
-										?>
-										<tr>
-										<td><?PHP echo $row['id']; ?></td>
-										<td><?PHP echo $row['nom']; ?></td>
-										<td><?PHP echo $row['prenom']; ?></td>
-										<td><?PHP echo $row['type_rec']; ?></td>	
-										<td><?PHP echo $row['ref']; ?></td>
-										<td><?PHP echo $row['message']; ?></td>
-										<td><?PHP echo $row['date_rec']; ?></td>
-										
-										</td>		
-										</tr>
-	</tbody>
-										<?PHP
-										}
-										?>
-</table>
+   <section class="banner-bottom-wthreelayouts py-lg-5 py-3">
+		<div class="container-fluid">
+<div class="card " style="width: rem;">
+ <div class="card-header">
+ <div class="inner-sec-shop px-lg-4 px-3">
+			  <h3 class="tittle-w3layouts text-left my-lg-4 my-3">Rendezvous</h3>
+	</div>
+<div class="card-body mb-3" style="max-width: 54rem;">
+  <form method="POST"  name="f" action="">
+  <div class="">
+    <div class="col mb-3">
+	<input type="hidden" name="Id" class="form-control"  placeholder="yyyy-mm-dd" >
+     <label for="inputEmail4">Date</label>
+      <input type="date" name="dateR" class="form-control"  placeholder="yyyy-mm-dd" >
+    </div>
+    <div class="col mb-3">
+     <label for="inputEmail5">Time</label>
+      <input type="time" name="timeR" class="form-control"   placeholder="example 12h">
+    </div>
+    <div class="col mb-3">
+     <label for="inputEmail5">Product Reference</label>
+      <input type="text"  name="refp" class="form-control"  placeholder="Product Reference" >
+    </div>
+	<div class="col mb-3">
+     <label for="inputEmail5">state</label>
+      <input type="text"  name="etat" class="form-control"  placeholder="1 confirmé et 0 pas sûr" >
+    </div>
   </div>
+  <div><button type="submit" name="edit" class="btn btn-primary submit mb-3" style="float: left; background-color:#F25613">Edit</button></div>
+</form>
 </div>
+</div>
+			
+</div>
+
+		<!-- Contact Us -->
+
+		
+
+	<!-- Newsletter -->
+
+	<div class="newsletter">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+						<h4>Restez informé</h4>
+						<p>Abonnez-vous à notre newsletter pour ne pas manquer les dernières nouvelles, les tendances hipster ou les nouveaux produits.</p>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<form action="post">
+						<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+							<input id="newsletter_email" type="email" placeholder="Ton email" required="required" data-error="Valid email is required.">
+							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">s'inscrire</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Footer -->
 
 	<footer class="footer">
